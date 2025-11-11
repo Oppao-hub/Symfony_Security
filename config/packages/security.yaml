@@ -4,18 +4,28 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
+        in_memory:
+            memory:
+                users:
+                    user:
+                        password: $2y$13$itZk7S6LB4mbeOeYVZyrVuzlOY38hW4P4Z/PmUFHYqM1r1Wt7dN/6
+                        roles: ["ROLE_USER"]
+                    admin:
+                        password: $2y$13$itZk7S6LB4mbeOeYVZyrVuzlOY38hW4P4Z/PmUFHYqM1r1Wt7dN/6
+                        roles: ["ROLE_ADMIN"]
+                    staff:
+                        password: $2y$13$itZk7S6LB4mbeOeYVZyrVuzlOY38hW4P4Z/PmUFHYqM1r1Wt7dN/6
+                        roles: ["ROLE_STAFF"]
+
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: app_user_provider
+            http_basic: ~
+            provider: in_memory
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -28,7 +38,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/dashboard, roles: ROLE_ADMIN }
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

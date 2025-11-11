@@ -13,10 +13,4 @@ final class HomeController extends AbstractController
     {
         return $this->render('base.html.twig');
     }
-
-    #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(): Response
-    {
-        return new Response("Welcome to the dashboard! (Protected Area)");
-    }
 }
